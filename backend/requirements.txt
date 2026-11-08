@@ -1,0 +1,20 @@
+# Runtime dependencies of the API (installed in the Docker image).
+# Direct dependencies only, maintained by hand (no pip freeze).
+# Development tools are in requirements-dev.txt.
+fastapi
+uvicorn
+pydantic
+pydantic-settings
+scikit-learn
+pandas
+numpy
+joblib
+lime
+
+# Pretrained Hugging Face models (core/pretrained.py). On Linux, install the
+# smaller CPU-only torch first: pip install torch --index-url https://download.pytorch.org/whl/cpu
+transformers
+torch
+
+# Optional LLM explanations with Claude (LLM_PROVIDER=anthropic); OpenAI-compatible APIs need no package
+anthropic

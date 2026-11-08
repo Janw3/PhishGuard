@@ -1,0 +1,26 @@
+[project]
+name = "phishguard-backend"
+version = "0.1.0"
+requires-python = ">=3.10"
+# Dependencies live in requirements.txt (hand-curated, direct deps only).
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+extend-exclude = ["venv"]
+
+[tool.ruff.lint]
+# E/W: style errors, F: real bugs (unused imports, undefined names),
+# I: import order, B: likely bugs, UP: modern Python syntax.
+select = ["E", "W", "F", "I", "B", "UP"]
+# Line length is handled by `ruff format`. What remains are long text strings
+# (demo emails, explanations), which are easier to read unbroken.
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app", "core", "scripts", "tests"]
+
+[tool.pytest.ini_options]
+# Lets tests import `app` and `core` when pytest is started from backend/.
+pythonpath = ["."]
+testpaths = ["tests"]

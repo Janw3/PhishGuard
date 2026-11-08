@@ -1,0 +1,12 @@
+# Keep the build context small and free of data, secrets and local environments.
+venv/
+.venv/
+data/
+artifacts/
+tests/
+scripts/
+**/__pycache__/
+.pytest_cache/
+.ruff_cache/
+.env
+.env.*

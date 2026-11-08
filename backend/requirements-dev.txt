@@ -1,0 +1,6 @@
+# Everything for development: runtime + tests, linting, scripts.
+-r requirements.txt
+
+pytest
+ruff
+pre-commit

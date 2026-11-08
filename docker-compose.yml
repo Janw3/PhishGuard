@@ -1,0 +1,40 @@
+# Start everything:   docker compose up --build
+#   UI:   http://localhost:5173
+#   API:  http://localhost:8000/docs
+#
+# Models: the default pretrained model is downloaded on the first analysis
+# (~270 MB, kept in the hf-cache volume). Trained models from backend/artifacts/
+# are mounted read-only if you trained them (python -m scripts.train).
+# Choose the model with DEFAULT_MODEL in backend/.env (optional file).
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: ./backend/.env
+        required: false
+    # Lets the container reach services on the host, e.g. a local Ollama for LLM explanations
+    # (LLM_BASE_URL=http://host.docker.internal:11434/v1 in backend/.env).
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./backend/artifacts:/app/artifacts:ro
+      - hf-cache:/hf-cache
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:8000
+    ports:
+      - "5173:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  hf-cache:
